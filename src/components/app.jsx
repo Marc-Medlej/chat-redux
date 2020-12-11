@@ -1,5 +1,6 @@
 import React from 'react';
 import MessageList from '../containers/message_list'
+import MessageForm from '../containers/message_form'
 
 const App = () => {
 
@@ -11,7 +12,6 @@ const App = () => {
       <div className="channels-container"></div>
       <div className="channel-container">
         <MessageList />
-        <MessageForm />
       </div>
     </div>
   );

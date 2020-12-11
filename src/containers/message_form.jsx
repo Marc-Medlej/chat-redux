@@ -1,42 +1,110 @@
+// import React, { Component } from 'react';
+// import { bindActionCreators } from 'redux';
+// import { connect } from 'react-redux';
+
+// import { createMessage } from '../actions/index'
+
+
+// class MessageForm extends Component {
+
+//     constructor(props) {
+//         super(props);
+//         this.state = { value: '' };
+//       }
+
+//       componentDidMount() {
+//         this.messageBox.focus();
+//       }
+//       handleChange = (event) => {
+//         this.setState({ value: event.target.value });
+//       }
+
+//     handleSubmit(event) {
+//         event.preventDefault();
+//         this.props.createMessage(this.props.selectedChannel, this.props.currentUser, event.target.value);
+//         this.setState({ value: '' });
+//     }
+    
+//       render() {
+//         return (
+//           <form onSubmit={this.handleSubmit}>
+//             <label>
+//               Type your message
+//               <input ref={(input) => { this.messageBox = input; }} type="text"  onChange={this.handleChange}/>
+//             </label>
+//             <button type="submit" value="Submit" />
+//           </form>
+//         );
+//       }
+//     }
+
+// function mapDispatchToProps(dispatch) {
+//     return bindActionCreators(
+//         { createMessage: createMessage },
+//         dispatch
+//     );
+// }
+
+// function mapStateToProps(state) {
+//     return {
+//         selectedChannel: state.selectedChannel,
+//         currentUser: state.currentUser
+//     };
+// } 
+
+// export default connect(mapStateToProps, mapDispatchToProps)(MessageForm);
+
 import React, { Component } from 'react';
-import Message from '../components/message'
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-
-import { fetchMessages } from '../actions/index'
-
+import { createMessage } from '../actions/index';
 
 class MessageForm extends Component {
+  constructor(props) {
+    super(props);
+    this.state = { value: '' };
+  }
 
-    constructor(props) {
-        super(props);
-        this.state = {value: ''};
-    
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-      }
-    
-      handleChange(event) {
-        this.setState({value: event.target.value});
-      }
-    
-      handleSubmit(event) {
-        alert('A name was submitted: ' + this.state.value);
-        event.preventDefault();
-      }
-    
-      render() {
-        return (
-          <form onSubmit={this.handleSubmit}>
-            <label>
-              Type your message
-              <input type="text" value={this.state.value} onChange={this.handleChange} />
-            </label>
-            <input className="button" type="submit" value="Submit" />
-          </form>
-        );
-      }
-    }
+  componentDidMount() {
+    this.messageBox.focus();
+  }
+
+  handleChange = (event) => {
+    this.setState({ value: event.target.value });
+  }
+
+  handleSubmit = (event) => {
+    event.preventDefault();
+    this.props.createMessage(this.props.selectedChannel, this.props.currentUser, this.state.value);
+    this.setState({ value: '' }); // Reset message input
+  }
+
+  render() {
+    return (
+      <form onSubmit={this.handleSubmit} className="channel-editor">
+        <input
+          ref={(input) => { this.messageBox = input; }}
+          type="text"
+          className="form-control"
+          autoComplete="off"
+          value={this.state.value}
+          onChange={this.handleChange}
+        />
+        <button type="submit">Send</button>
+      </form>
+    );
+  }
+}
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ createMessage }, dispatch);
+}
+
+function mapStateToProps(state) {
+  return {
+    currentUser: state.currentUser,
+    selectedChannel: state.selectedChannel
+  };
+}
 
 export default connect(mapStateToProps, mapDispatchToProps)(MessageForm);
-   

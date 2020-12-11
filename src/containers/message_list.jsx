@@ -9,15 +9,26 @@ import { fetchMessages } from '../actions/index'
 class MessageList extends Component {
 
     componentWillMount() {
+        this.fetchMessages();
+    }
+    
+    componentDidMount() {
+        this.refresher = setInterval(this.fetchMessages, 5000);
+      }
+
+      componentWillUnmount() {
+        clearInterval(this.refresher);
+      }
+
+      fetchMessages = () => {
         this.props.fetchMessages(this.props.selectedChannel);
-    } 
+      }
 
     renderList = () => {
-        console.log(this.props.messages)
-        if (this.props.messages.messages === []) {
+        if (this.props.messages === []) {
             return null;
         } else { 
-            return this.props.messages.messages.map((message) => {
+            return this.props.messages.map((message) => {
               return (
                 <Message
                   author={message.author}

@@ -16,7 +16,7 @@ import channels_reducer from './reducers/channels_reducer';
 import selected_channel_reducer from './reducers/selected_channel_reducer';
 
 const initialState = {
-  messages: {channel: 'general' , messages: [
+  messages: [
     {
       "author":"anonymous92",
       "content":"Hello world!",
@@ -27,7 +27,7 @@ const initialState = {
       "content":"My name is anonymous77",
       "created_at":"2017-09-26T23:03:21.194Z"
     }
-  ]},
+  ],
   channels: [ 'general', 'react', 'paris' ],
   currentUser: prompt("What is your username?") || `anonymous${Math.floor(10 + (Math.random() * 90))}`,
   selectedChannel: 'general'
